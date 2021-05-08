@@ -3,7 +3,9 @@ package com.example.visithurunewapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -14,9 +16,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,10 +34,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.IOException;
+import java.security.ProtectionDomain;
 import java.util.HashMap;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -44,6 +52,9 @@ public class SettingsActivity extends AppCompatActivity {
     String currentUserID;
     FirebaseAuth mAuth;
     DatabaseReference RootRef;
+
+    ProgressDialog loadingBar;
+    String imageUrl;
 
 
     private static final int GalleryPick = 1;
@@ -97,9 +108,10 @@ public class SettingsActivity extends AppCompatActivity {
                                  String retrieveUserName = dataSnapshot.child("userNameW").getValue().toString();
                                  String retrieveStatus = dataSnapshot.child("userStatusW").getValue().toString();
                                  String retrieveProfileImage = dataSnapshot.child("image").getValue().toString();
-
+                                 Log.i("LocalMassage","url : "+ retrieveProfileImage);
                                  userName.setText(retrieveUserName);
                                  userStatus.setText(retrieveStatus);
+                                 Picasso.get().load(retrieveProfileImage).into(userProfileImage);
 
                              }
                                  else if((dataSnapshot.exists()) && (dataSnapshot.hasChild("userNameW"))){
@@ -140,6 +152,9 @@ public class SettingsActivity extends AppCompatActivity {
             profileMap.put("uid", currentUserID);
             profileMap.put("userNameW", setUserName);
             profileMap.put("userStatusW", setStatus);
+            if(imageUrl != null)
+                profileMap.put("image", imageUrl);
+
 
             RootRef.child("ChatUser").child(currentUserID).setValue(profileMap)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -164,6 +179,7 @@ public class SettingsActivity extends AppCompatActivity {
         userName = (EditText) findViewById(R.id.set_user_name);
         userStatus = (EditText) findViewById(R.id.set_profile_status);
         userProfileImage = (ShapeableImageView) findViewById(R.id.set_profile_image);
+        loadingBar = new ProgressDialog(this);
     }
 
 
@@ -188,23 +204,110 @@ public class SettingsActivity extends AppCompatActivity {
             Log.i("LocalMassage", "Image Clicked" + result);
 
             if(resultCode == RESULT_OK){
+                loadingBar.setTitle("Set profile Image");
+                loadingBar.setMessage("Please wait, Your profile is updating");
+                loadingBar.setCanceledOnTouchOutside(false);
+                loadingBar.show();
+
                 Uri resultUre = result.getUri();
 
                 StorageReference filePath = UserProfileImageRef.child(currentUserID + ".jpg");
+                
+                // FromStack Overflow-----------------------------------------------------------------------
 
-                filePath.putFile(resultUre).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+
+                final UploadTask uploadTask = filePath.putFile(resultUre);
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(SettingsActivity.this,"Profile Image Uploded", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            String massage = task.getException().toString();
-                            Toast.makeText(SettingsActivity.this,"Error : " + massage, Toast.LENGTH_SHORT).show();
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                        }
+                        uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                            @Override
+                            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                                if (!task.isSuccessful()) {
+                                    loadingBar.dismiss();
+                                    throw task.getException();
+
+                                }
+                                // Continue with the task to get the download URL
+
+                                return filePath.getDownloadUrl();
+
+                            }
+                        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+                                if (task.isSuccessful()) {
+                                    String thumbDownloadUrl = task.getResult().toString(); // Found Url
+                                    imageUrl = thumbDownloadUrl;
+
+                                    RootRef.child("ChatUser").child(currentUserID).child("image")
+                                    .setValue(thumbDownloadUrl)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                Toast.makeText(SettingsActivity.this,"Image Save in Database, Sucessfully...",Toast.LENGTH_SHORT).show();
+                                                loadingBar.dismiss();
+                                            }
+                                            else {
+                                                String massage = task.getException().toString();
+                                                Toast.makeText(SettingsActivity.this," Error : " + massage,Toast.LENGTH_SHORT).show();
+                                                loadingBar.dismiss();
+                                            }
+                                        }
+                                    });
+
+                                    Log.i("LocalMassage","url new : " + thumbDownloadUrl);
+
+
+                                }
+                            }
+                        });
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
                     }
                 });
+
+
+
+                // My Code Image
+//                filePath.putFile(resultUre).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+//                        if (task.isSuccessful()){
+//                            Toast.makeText(SettingsActivity.this,"Profile Image uploaded Successfully", Toast.LENGTH_SHORT).show();
+//                            final String downloaedUrl = task.getResult().getMetadata().getReference().getDownloadUrl().toString();
+//                            Log.i("LocalMassage","Download Url :" + downloaedUrl);
+//
+//                            RootRef.child("ChatUser").child(currentUserID).child("image")
+//                                    .setValue(downloaedUrl)
+//                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                        @Override
+//                                        public void onComplete(@NonNull Task<Void> task) {
+//                                            if(task.isSuccessful()){
+//                                                Toast.makeText(SettingsActivity.this,"Image Save in Database, Sucessfully...",Toast.LENGTH_SHORT).show();
+//                                                loadingBar.dismiss();
+//                                            }
+//                                            else {
+//                                                String massage = task.getException().toString();
+//                                                Toast.makeText(SettingsActivity.this," Error : " + massage,Toast.LENGTH_SHORT).show();
+//                                                loadingBar.dismiss();
+//                                            }
+//                                        }
+//                                    });
+//                        }
+//                        else {
+//                            String massage = task.getException().toString();
+//                            Toast.makeText(SettingsActivity.this,"Error : " + massage, Toast.LENGTH_SHORT).show();
+//                            loadingBar.dismiss();
+//
+//                        }
+//                    }
+//                });
             }
         }
     }
