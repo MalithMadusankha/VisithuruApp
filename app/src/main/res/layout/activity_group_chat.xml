@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GroupChatActivity">
+
+    <include
+        android:id="@+id/group_chat_layout"
+        layout="@layout/app_bar_layout"></include>
+
+
+    <LinearLayout
+        android:id="@+id/myLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/input_group_massage"
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:hint="Please write your massage" />
+
+        <Button
+            android:id="@+id/send_massage_button"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/send_ic_btn"
+            app:backgroundTint="#E91E63" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/group_name_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/pinkBar"
+        android:padding="10dp"
+        android:text="Group Name"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:id="@+id/my_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="627dp"
+        android:layout_above="@+id/myLinearLayout"
+        android:layout_below="@+id/group_name_text_view"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/group_chat_text_display"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textAllCaps="false"
+                android:textColor="@color/teal_200"
+                android:textSize="20dp"
+                android:text="Hello"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="50dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

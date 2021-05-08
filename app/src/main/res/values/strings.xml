@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Visithuru</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ChatLayoutFrg">Chat Layout Fregment</string>
+    <string name="GroupLayoutFrg">Group Layout Fragemnt</string>
+    <string name="ContactsLayoutFragement">Contact Layout Fragement</string>
+    <string name="Hint_Email">Email . .</string>
+    <string name="Login_text">Login Here</string>
+    <string name="Hint_password">Password</string>
+    <string name="Btn_Login">Login</string>
+    <string name="Forget_password">Forget Password</string>
+    <string name="New_Account_link">Need New Account</string>
+    <string name="Register_Title">Registration</string>
+    <string name="Create_Act">Create Account</string>
+    <string name="Already_Act">I Have  already Account</string>
+    <string name="Re_register_psw">Re-Password</string>
+    <string name="Hint_rePassword">Re-Password</string>
+    <string name="Hint_UserName">User Name</string>
+    <string name="Hint_status">Hey I am online</string>
+    <string name="Btn_Update">Update</string>
+</resources>

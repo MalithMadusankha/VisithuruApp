@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity">
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/set_profile_image"
+        android:layout_width="250dp"
+        android:layout_height="210dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="30dp"
+        android:padding="5dp"
+        android:src="@drawable/profile_image"
+        app:shapeAppearanceOverlay="@style/Circular" />
+
+    <EditText
+        android:id="@+id/set_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/set_profile_image"
+        android:layout_margin="20dp"
+        android:drawableStart="@drawable/edit_user_ic"
+        android:drawableLeft="@drawable/edit_user_ic"
+        android:hint="@string/Hint_UserName"
+        android:padding="10dp"
+        android:textColor="@color/teal_700"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/set_profile_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/set_user_name"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:drawableStart="@drawable/edit_status"
+        android:drawableLeft="@drawable/edit_status"
+        android:hint="@string/Hint_status"
+        android:padding="10dp"
+        android:textColor="@color/teal_700"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/update_setting_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/set_profile_status"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:padding="10dp"
+        android:text="@string/Btn_Update"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/teal_700" />
+
+
+
+
+
+</RelativeLayout>
