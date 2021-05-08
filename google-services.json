@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "498365745921",
+    "firebase_url": "https://visithurunewapp-default-rtdb.firebaseio.com",
+    "project_id": "visithurunewapp",
+    "storage_bucket": "visithurunewapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:498365745921:android:be2708e389422d22956900",
+        "android_client_info": {
+          "package_name": "com.example.visithurunewapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "498365745921-q3m9i6okoko06ev162jedsopirl973nh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf4Kcq8wj5ZvNw4lI30oNIWWJyvhLlqs0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "498365745921-q3m9i6okoko06ev162jedsopirl973nh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
