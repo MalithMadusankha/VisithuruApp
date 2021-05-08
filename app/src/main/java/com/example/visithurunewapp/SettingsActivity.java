@@ -166,29 +166,7 @@ public class SettingsActivity extends AppCompatActivity {
         userProfileImage = (ShapeableImageView) findViewById(R.id.set_profile_image);
     }
 
-    //Image result
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == RESULT_OK) {
-//            if (requestCode == GalleryPick) {
-//
-//                imageUri = data.getData();
-//
-//                try{
-//                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageUri);
-//                    userProfileImage.setImageBitmap(bitmap);
-//
-////                    Uri resultUri = imageUri.getU();
-//
-//                    StorageReference filePath = UserProfileImageRef.child(currentUserID + ".jpg")
-//                }catch (IOException e){
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//
-//        }
-//    }
+
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
