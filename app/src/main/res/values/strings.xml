@@ -19,4 +19,5 @@
     <string name="Hint_UserName">User Name</string>
     <string name="Hint_status">Hey I am online</string>
     <string name="Btn_Update">Update</string>
+    <string name="sendMassage">Send Massage</string>
 </resources>

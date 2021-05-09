@@ -72,10 +72,10 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(this, "Please Enter Password", Toast.LENGTH_SHORT).show();
         }
         else {
-            newChatUser.setEmailW(email);
-            newChatUser.setPasswordW(password);
-            newChatUser.setUserNameW("type user Name");
-            newChatUser.setStatusW("Hey I am Online");
+//            newChatUser.setEmailW(email);
+//            newChatUser.setPasswordW(password);
+//            newChatUser.setUserNameW("type user Name");
+//            newChatUser.setStatusW("Hey I am Online");
 
             loadingBar.setTitle("Creating New Account");
             loadingBar.setMessage("Please wait , while we are creating new Account for you..");
@@ -87,7 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
-                                dbRefW.push().setValue(newChatUser);
+//                                dbRefW.push().setValue(newChatUser);
                                 Toast.makeText(RegisterActivity.this, "Account Created successfully", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
                                 sendUserToMainActivity();

@@ -43,7 +43,7 @@
         android:padding="10dp"
         android:text="Group Name"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="18dp"
         android:textStyle="bold" />
 
     <ScrollView
